@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/notes', name:'note')]
 class NoteController extends AbstractController
 {
     public function __construct(private MongoDBService $mongoDBService)
@@ -17,9 +18,8 @@ class NoteController extends AbstractController
         $this->mongoDBService = $mongoDBService;
     }
 
-    /**
-     * @Route("/notes/new", name="note_new")
-     */
+    
+    #[Route('/new', name:'_new')]
     public function new(Request $request): Response
     {
         $note = new Note();
@@ -28,7 +28,7 @@ class NoteController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->mongoDBService->newNote($note);
-            return $this->redirectToRoute('note_success');
+            return $this->redirectToRoute('note_all');
         }
 
         return $this->render('note/index.html.twig', [
@@ -36,11 +36,13 @@ class NoteController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/notes/success", name="note_success")
-     */
-    public function success(): Response
+    #[Route('/all', name:'_all')]
+    public function show()
     {
-        return new Response('Note added successfully!');
+        $notes = $this->mongoDBService->getAllNotes();
+
+        return $this->render('note/list.html.twig', [
+            'notes' => $notes
+        ]);
     }
 }

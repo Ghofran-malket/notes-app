@@ -32,4 +32,9 @@ class MongoDBService
         ]);
     }
 
+    public function getAllNotes(): array{
+        $collection = $this->getCollection('notes');
+        $notes = $collection->find();
+        return iterator_to_array($notes);
+    }
 }

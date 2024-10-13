@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container text-start px-5 py-5 mt-5">
+        <h1 class="text-primary">Notes list</h1>
+
+        <div class="table-responsive">
+            <table class="table rounded shadow-5-strong">
+            <thead class="text-primary">
+                <tr>
+                    <th>title</th>
+                    <th>content</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for note in notes %}
+                <tr>
+                    <td>{{note.title}}</td>
+                    <td>{{ note.content }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        
+    </div>
+
+{% endblock %}
