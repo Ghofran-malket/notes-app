@@ -1,10 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello NoteController!{% endblock %}
 
 {% block body %}
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Add Note</button>
-{{ form_end(form) }}
+<div class="container">
+    <h1>Edit Note</h1>
+
+    <div class="card bg-light my-4 p-5" style="border-radius:25px;">
+        {{ form_start(form) }}
+            <div class="mb-3 row">
+                <div class="col-lg-3 col-sm-12 mb-2">
+                    {{ form_label(form.title, 'title', {'label_attr': {'class': 'form-label text-dark'}}) }}
+                </div>
+                <div class="col-lg-9 col-sm-12 mb-2">
+                    {{ form_widget(form.title, {'attr': {
+                        'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-lg-3 col-sm-12 mb-2">
+                    {{ form_label(form.content, 'content', {'label_attr': {'class': 'form-label text-dark'}}) }}
+                </div>
+                <div class="col-lg-9 col-sm-12 mb-2">
+                    {{ form_widget(form.content, {'attr': {
+                        'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="mb-3 row justify-content-end">
+                <div class="col-lg-1 col-sm-12 mb-2 text-center">
+                    <button type="submit" class="btn btn-primary text-white">Add Note</button>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+
+    <a href="{{ path('note_all') }}" class="btn btn-secondary">Back to Notes</a>
+</div>
 {% endblock %}
