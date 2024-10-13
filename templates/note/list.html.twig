@@ -2,28 +2,28 @@
 
 {% block body %}
 
-    <div class="container text-start px-5 py-5 mt-5">
-        <h1 class="text-primary">Notes list</h1>
+    <div class="container">
+        <h1>Your Notes</h1>
 
-        <div class="table-responsive">
-            <table class="table rounded shadow-5-strong">
-            <thead class="text-primary">
-                <tr>
-                    <th>title</th>
-                    <th>content</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="row">
             {% for note in notes %}
-                <tr>
-                    <td>{{note.title}}</td>
-                    <td>{{ note.content }}</td>
-                </tr>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header">
+                            <h5 class="card-title">{{ note.title }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ note.content }}</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p>No notes available.</p>
             {% endfor %}
-            </tbody>
-        </table>
         </div>
-        
+
+        <a href="{{ path('note_new') }}" class="btn btn-success">Add New Note</a>
     </div>
 
 {% endblock %}
