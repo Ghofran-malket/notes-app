@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Animal;
 use App\Entity\Note;
+use Exception;
 use MongoDB\Client;
 
 class MongoDBService
@@ -36,5 +37,32 @@ class MongoDBService
         $collection = $this->getCollection('notes');
         $notes = $collection->find();
         return iterator_to_array($notes);
+    }
+
+    public function getNoteByTitle(string $title): ?Note
+    {
+        $collection = $this->getCollection('notes');
+
+        $note = $collection->findOne(['title' => $title]);
+        $note2 = new Note();
+        $note2->setTitle($note['title']);
+        $note2->setContent($note['content']);
+        return $note2;
+    }
+
+
+    public function updateNote(string $newTitle, string $newContent, string $oldTitle)
+    {
+        $collection = $this->getCollection('notes');
+
+        $result = $collection->updateOne(
+            ['title' => $oldTitle], // Find the note by its current title
+            ['$set' => [
+                'title' => $newTitle, // Update the title (this may change)
+                'content' => $newContent, // Update the content
+            ]]
+        );
+        
+        
     }
 }

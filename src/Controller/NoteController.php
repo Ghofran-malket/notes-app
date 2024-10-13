@@ -45,4 +45,29 @@ class NoteController extends AbstractController
             'notes' => $notes
         ]);
     }
+
+    /**
+     * @Route("/notes/edit/{id}", name="note_edit")
+     */
+    #[Route('/edit/{title}', name:'_edit')]
+    public function edit(Request $request, string $title): Response
+    {
+        $note = $this->mongoDBService->getNoteByTitle($title);
+    
+        if (!$note) {
+            throw $this->createNotFoundException('Note not found');
+        }
+
+        $form = $this->createForm(NoteType::class, $note);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->mongoDBService->updateNote($form->get('title')->getData(), $form->get('content')->getData(), $note->getTitle());
+            return $this->redirectToRoute('note_all');
+        }
+
+        return $this->render('note/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

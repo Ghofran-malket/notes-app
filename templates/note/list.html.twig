@@ -15,6 +15,7 @@
                         <div class="card-body">
                             <p class="card-text">{{ note.content }}</p>
                             <a href="#" class="btn btn-primary">View</a>
+                            <a href="{{ path('note_edit', { title: note.title }) }}" class="btn btn-warning">Edit</a>
                         </div>
                     </div>
                 </div>
