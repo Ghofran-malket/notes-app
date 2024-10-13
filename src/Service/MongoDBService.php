@@ -65,4 +65,19 @@ class MongoDBService
         
         
     }
+
+    public function deleteNote(string $title): void
+    {
+        $collection = $this->getCollection('notes');
+        try {
+            $result = $collection->deleteOne(['title' => $title]);
+
+            if ($result->getDeletedCount() === 0) {
+                throw new Exception("No documents matched the query. Deleted 0 documents.");
+            }
+        } catch (Exception $e) {
+            // Handle exceptions, e.g., log the error
+            throw $e; // or handle it as needed
+        }
+    }
 }

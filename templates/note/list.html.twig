@@ -14,13 +14,18 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">{{ note.content }}</p>
-                            <a href="#" class="btn btn-primary">View</a>
                             <a href="{{ path('note_edit', { title: note.title }) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ path('note_delete', { title: note.title }) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this note?');">Delete</a>
                         </div>
                     </div>
                 </div>
             {% else %}
                 <p>No notes available.</p>
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
             {% endfor %}
         </div>
 

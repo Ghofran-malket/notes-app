@@ -46,9 +46,7 @@ class NoteController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/notes/edit/{id}", name="note_edit")
-     */
+    
     #[Route('/edit/{title}', name:'_edit')]
     public function edit(Request $request, string $title): Response
     {
@@ -69,5 +67,21 @@ class NoteController extends AbstractController
         return $this->render('note/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    
+    #[Route('/delete/{title}', name:'_delete')]
+    public function delete(string $title): Response
+    {
+        $note = $this->mongoDBService->getNoteByTitle($title);
+        
+        if (!$note) {
+            throw $this->createNotFoundException('Note not found');
+        }
+
+        $this->mongoDBService->deleteNote($title);
+
+        $this->addFlash('success', 'Note deleted successfully.');
+        return $this->redirectToRoute('note_all');
     }
 }
